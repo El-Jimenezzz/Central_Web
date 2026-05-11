@@ -1,0 +1,137 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 40 33% 99%;
+    --foreground: 20 14% 12%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 20 14% 12%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 20 14% 12%;
+
+    --primary: 43 96% 56%;
+    --primary-foreground: 20 14% 10%;
+
+    --secondary: 20 14% 10%;
+    --secondary-foreground: 40 33% 99%;
+
+    --muted: 40 20% 96%;
+    --muted-foreground: 20 10% 50%;
+
+    --accent: 43 96% 56%;
+    --accent-foreground: 20 14% 10%;
+
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 210 40% 98%;
+
+    --border: 40 10% 92%;
+    --input: 40 10% 92%;
+    --ring: 43 96% 56%;
+
+    --surface: 40 20% 97%;
+    --surface-elevated: 0 0% 100%;
+    --primary-soft: 43 96% 95%;
+    --text-heading: 20 14% 8%;
+    --text-body: 20 10% 40%;
+
+    --taxi-yellow: 43 96% 56%;
+    --taxi-yellow-dark: 38 92% 48%;
+    --taxi-yellow-light: 43 96% 92%;
+    --taxi-black: 20 14% 10%;
+    --taxi-gray: 20 10% 50%;
+    --taxi-light: 40 33% 99%;
+    --primary-text: 38 92% 30%;
+
+    --radius: 1rem;
+  }
+
+  .dark {
+    --background: 20 14% 8%;
+    --foreground: 40 33% 95%;
+
+    --card: 20 14% 12%;
+    --card-foreground: 40 33% 95%;
+
+    --popover: 20 14% 12%;
+    --popover-foreground: 40 33% 95%;
+
+    --primary: 43 96% 56%;
+    --primary-foreground: 20 14% 10%;
+
+    --secondary: 40 20% 20%;
+    --secondary-foreground: 40 33% 95%;
+
+    --muted: 20 14% 18%;
+    --muted-foreground: 40 10% 60%;
+
+    --accent: 43 96% 56%;
+    --accent-foreground: 20 14% 10%;
+
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 210 40% 98%;
+
+    --border: 20 14% 20%;
+    --input: 20 14% 20%;
+    --ring: 43 96% 56%;
+
+    --surface: 20 14% 12%;
+    --surface-elevated: 20 14% 15%;
+    --primary-soft: 43 50% 15%;
+    --text-heading: 40 33% 95%;
+    --text-body: 40 10% 70%;
+    --primary-text: 43 96% 65%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground font-sans;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+}
+
+@layer components {
+  .taxi-card {
+    @apply bg-[hsl(var(--surface-elevated))] rounded-2xl p-8 lg:p-10 border border-border/50 hover:border-primary/20 transition-all duration-500;
+  }
+
+  .section-padding {
+    @apply px-6 lg:px-8 py-16 lg:py-20;
+  }
+
+  .taxi-button {
+    @apply bg-primary text-primary-foreground hover:bg-primary/90 transition-all duration-500 font-semibold rounded-full px-8 py-4;
+  }
+
+  .overline {
+    @apply text-xs uppercase tracking-widest font-semibold text-primary;
+  }
+
+  .section-heading {
+    @apply text-4xl lg:text-5xl font-bold tracking-tight;
+  }
+
+  .section-subheading {
+    @apply text-lg text-muted-foreground max-w-2xl mx-auto mt-4;
+  }
+
+  .icon-container {
+    @apply w-12 h-12 rounded-xl flex items-center justify-center;
+    background: hsl(var(--primary-soft));
+  }
+
+  .glass {
+    @apply bg-white/80 backdrop-blur-xl border border-white/20;
+  }
+}
