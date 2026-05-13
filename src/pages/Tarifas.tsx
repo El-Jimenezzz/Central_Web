@@ -158,8 +158,8 @@ const Tarifas = () => {
         {/* ── Hero ── */}
         <section className="bg-foreground text-white py-14 px-4">
           <div className="container mx-auto max-w-3xl">
-            {/* Volver al inicio — alineado a la derecha */}
-            <div className="flex justify-end mb-4">
+            {/* Volver al inicio — alineado a la izquierda */}
+            <div className="flex justify-start mb-6">
               <Link
                 to="/"
                 className="inline-flex items-center gap-1.5 text-white/50 hover:text-white text-sm transition-colors"
