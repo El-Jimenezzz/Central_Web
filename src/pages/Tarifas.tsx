@@ -4,7 +4,7 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import WhatsAppFloat from "@/components/WhatsAppFloat";
 import ScrollToTop from "@/components/ScrollToTop";
-import { Search, Moon, Snowflake, MapPin, Info, ArrowLeft } from "lucide-react";
+import { Search, Moon, Snowflake, MapPin, Info, ArrowLeft, ChevronDown } from "lucide-react";
 
 // Scroll al top al montar la página
 const useScrollToTop = () => {
@@ -128,6 +128,11 @@ const sitiosTuristicos = [
 const Tarifas = () => {
   useScrollToTop();
   const [busqueda, setBusqueda] = useState("");
+  const [zonasAbiertas, setZonasAbiertas] = useState<Record<number, boolean>>({});
+
+  const toggleZona = (precio: number) => {
+    setZonasAbiertas((prev) => ({ ...prev, [precio]: !prev[precio] }));
+  };
 
   const normalizar = (texto: string) =>
     texto.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
@@ -152,24 +157,30 @@ const Tarifas = () => {
 
         {/* ── Hero ── */}
         <section className="bg-foreground text-white py-14 px-4">
-          <div className="container mx-auto max-w-3xl text-center">
-            <Link
-              to="/"
-              className="inline-flex items-center gap-1.5 text-white/50 hover:text-white text-sm mb-6 transition-colors"
-            >
-              <ArrowLeft className="h-4 w-4" />
-              Volver al inicio
-            </Link>
-            <div className="inline-block bg-primary text-primary-foreground text-xs font-bold px-3 py-1 rounded-full mb-4 uppercase tracking-widest">
-              Decreto No. 0030 · Enero 2026
+          <div className="container mx-auto max-w-3xl">
+            {/* Volver al inicio — alineado a la derecha */}
+            <div className="flex justify-end mb-4">
+              <Link
+                to="/"
+                className="inline-flex items-center gap-1.5 text-white/50 hover:text-white text-sm transition-colors"
+              >
+                <ArrowLeft className="h-4 w-4" />
+                Volver al inicio
+              </Link>
             </div>
-            <h1 className="text-4xl md:text-5xl font-bold mb-4">
-              Tarifas Oficiales
-            </h1>
-            <p className="text-white/60 text-lg">
-              Fijadas por la Alcaldía de Girardot — Secretaría de Tránsito y Transporte Municipal.
-              Vigentes desde el centro de la ciudad hacia y viceversa.
-            </p>
+            {/* Contenido centrado */}
+            <div className="text-center">
+              <div className="inline-block bg-primary text-primary-foreground text-xs font-bold px-3 py-1 rounded-full mb-4 uppercase tracking-widest">
+                Decreto No. 0030 · Enero 2026
+              </div>
+              <h1 className="text-4xl md:text-5xl font-bold mb-4">
+                Tarifas Oficiales
+              </h1>
+              <p className="text-white/60 text-lg">
+                Fijadas por la Alcaldía de Girardot — Secretaría de Tránsito y Transporte Municipal.
+                Vigentes desde el centro de la ciudad hacia y viceversa.
+              </p>
+            </div>
           </div>
         </section>
 
@@ -251,29 +262,42 @@ const Tarifas = () => {
                 const destinosFiltrados = filtrarDestinos(zona.destinos);
                 if (terminoBusqueda && destinosFiltrados.length === 0) return null;
 
+                // Si hay búsqueda activa, forzar abierto
+                const abierto = terminoBusqueda ? true : !!zonasAbiertas[zona.precio];
+
                 return (
                   <div key={zona.precio} className="taxi-card p-0 overflow-hidden">
-                    {/* Cabecera */}
-                    <div className="flex items-center gap-4 bg-foreground px-6 py-4">
-                      <span className="text-primary text-3xl font-extrabold">
-                        ${zona.precio.toLocaleString("es-CO")}
-                      </span>
-                      <div className="h-6 w-px bg-white/20" />
-                      <span className="text-white/50 text-sm">
-                        {zona.destinos.length} sectores
-                      </span>
-                    </div>
-                    {/* Chips */}
-                    <div className="p-5 flex flex-wrap gap-2">
-                      {destinosFiltrados.map((destino) => (
-                        <span
-                          key={destino}
-                          className="text-sm px-3 py-1 rounded-full bg-[hsl(var(--primary-soft))] text-[hsl(var(--primary-text))] font-medium border border-primary/20"
-                        >
-                          {destino}
+                    {/* Cabecera — clickeable */}
+                    <button
+                      onClick={() => toggleZona(zona.precio)}
+                      className="w-full flex items-center justify-between gap-4 bg-foreground px-6 py-4 text-left"
+                    >
+                      <div className="flex items-center gap-4">
+                        <span className="text-primary text-3xl font-extrabold">
+                          ${zona.precio.toLocaleString("es-CO")}
                         </span>
-                      ))}
-                    </div>
+                        <div className="h-6 w-px bg-white/20" />
+                        <span className="text-white/50 text-sm">
+                          {zona.destinos.length} sectores
+                        </span>
+                      </div>
+                      <ChevronDown
+                        className={`h-5 w-5 text-white/50 shrink-0 transition-transform duration-300 ${abierto ? "rotate-180" : ""}`}
+                      />
+                    </button>
+                    {/* Chips — colapsables */}
+                    {abierto && (
+                      <div className="p-5 flex flex-wrap gap-2">
+                        {destinosFiltrados.map((destino) => (
+                          <span
+                            key={destino}
+                            className="text-sm px-3 py-1 rounded-full bg-[hsl(var(--primary-soft))] text-[hsl(var(--primary-text))] font-medium border border-primary/20"
+                          >
+                            {destino}
+                          </span>
+                        ))}
+                      </div>
+                    )}
                   </div>
                 );
               })}
