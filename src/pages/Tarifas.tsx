@@ -1,20 +1,23 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import WhatsAppFloat from "@/components/WhatsAppFloat";
 import ScrollToTop from "@/components/ScrollToTop";
-import { Search, Moon, Snowflake, MapPin, Info } from "lucide-react";
+import { Search, Moon, Snowflake, MapPin, Info, ArrowLeft } from "lucide-react";
+
+// Scroll al top al montar la página
+const useScrollToTop = () => {
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: "instant" });
+  }, []);
+};
 
 // ─── Datos de tarifas ────────────────────────────────────────────────────────
 
 const tarifaZonas = [
   {
     precio: 8000,
-    color: "from-yellow-400 to-yellow-500",
-    textColor: "text-yellow-600",
-    bgLight: "bg-yellow-50",
-    borderColor: "border-yellow-300",
     destinos: [
       "Acacias", "Alamedas", "Alicante", "Almendros", "Alto de la Cruz",
       "Alto del Rosario", "Barrio Blanco", "Brisas Bogotá", "Cámbulos",
@@ -30,7 +33,6 @@ const tarifaZonas = [
       "San Jorge", "San Miguel", "Santa Helena", "Santafé", "Santander",
       "Santa Isabel", "Sucre", "Conj. Toledo", "U. Cundinamarca",
       "U. Piloto", "Uniminuto",
-      // Segunda franja $8.000
       "10 de Mayo", "20 de Julio", "Bocas del Bogotá", "Arrayanes",
       "Diamante", "Buenos Aires", "Conj. Bali", "Conj. Los Mangos",
       "Conj. Madeira", "Conj. Aguablanca", "Conj. Balcones Casaloma",
@@ -49,10 +51,6 @@ const tarifaZonas = [
   },
   {
     precio: 8500,
-    color: "from-orange-400 to-orange-500",
-    textColor: "text-orange-600",
-    bgLight: "bg-orange-50",
-    borderColor: "border-orange-300",
     destinos: [
       "Conj. Alcatraz", "Conj. Algarrobos", "Altos del Peñón",
       "Cafam del Sol", "Ciudad Montes", "Conj. Bello Horizonte",
@@ -68,10 +66,6 @@ const tarifaZonas = [
   },
   {
     precio: 9000,
-    color: "from-red-400 to-red-500",
-    textColor: "text-red-600",
-    bgLight: "bg-red-50",
-    borderColor: "border-red-300",
     destinos: [
       "Primero de Enero", "Cedro", "Conj. Altavista", "Conj. Aqualinas",
       "Conj. Park", "Conj. Atlantis", "Conj. Brisas Girardot I y II",
@@ -88,7 +82,6 @@ const tarifasEspeciales = [
   {
     precio: 16000,
     label: "Zona Lejana",
-    color: "from-purple-500 to-purple-600",
     destinos: [
       "Conj. Tulipán", "Conj. Talisman", "Conj. Tierra Linda",
       "Conj. Guabinal Plano", "V. Barzaloza-Cementerio",
@@ -98,7 +91,6 @@ const tarifasEspeciales = [
   {
     precio: 21000,
     label: "Zona Muy Lejana",
-    color: "from-pink-500 to-pink-600",
     destinos: [
       "V. Piamonte", "V. Berlín", "V. San Lorenzo",
       "Cond. El Paso", "Conj. Senderos del Sol",
@@ -107,13 +99,11 @@ const tarifasEspeciales = [
   {
     precio: 20000,
     label: "Zona Especial",
-    color: "from-indigo-500 to-indigo-600",
     destinos: ["B. Luis Carlos Galán Barzaloza Centro"],
   },
   {
     precio: 30000,
     label: "Zona Remota",
-    color: "from-gray-600 to-gray-700",
     destinos: ["V. Acapulco (Zumbanmicos)", "El Buche"],
   },
 ];
@@ -136,6 +126,7 @@ const sitiosTuristicos = [
 // ─── Componente principal ────────────────────────────────────────────────────
 
 const Tarifas = () => {
+  useScrollToTop();
   const [busqueda, setBusqueda] = useState("");
 
   const normalizar = (texto: string) =>
@@ -152,60 +143,65 @@ const Tarifas = () => {
     terminoBusqueda === "" ||
     tarifaZonas.some((z) => filtrarDestinos(z.destinos).length > 0) ||
     tarifasEspeciales.some((z) => filtrarDestinos(z.destinos).length > 0) ||
-    filtrarDestinos(sitiosTuristicos.map((s) => s.nombre)).length > 0;
+    sitiosTuristicos.some((s) => normalizar(s.nombre).includes(terminoBusqueda));
 
   return (
     <div className="min-h-screen bg-background">
       <Header />
       <main className="pt-20">
+
         {/* ── Hero ── */}
-        <section className="bg-gradient-to-br from-primary/10 via-background to-primary/5 py-16 px-4">
-          <div className="container mx-auto text-center max-w-3xl">
-            <span className="inline-block bg-primary/10 text-primary text-sm font-semibold px-4 py-1.5 rounded-full mb-4">
+        <section className="bg-foreground text-white py-14 px-4">
+          <div className="container mx-auto max-w-3xl text-center">
+            <Link
+              to="/"
+              className="inline-flex items-center gap-1.5 text-white/50 hover:text-white text-sm mb-6 transition-colors"
+            >
+              <ArrowLeft className="h-4 w-4" />
+              Volver al inicio
+            </Link>
+            <div className="inline-block bg-primary text-primary-foreground text-xs font-bold px-3 py-1 rounded-full mb-4 uppercase tracking-widest">
               Decreto No. 0030 · Enero 2026
-            </span>
-            <h1 className="text-4xl md:text-5xl font-bold text-foreground mb-4">
-              Tarifas Oficiales de Girardot
+            </div>
+            <h1 className="text-4xl md:text-5xl font-bold mb-4">
+              Tarifas Oficiales
             </h1>
-            <p className="text-muted-foreground text-lg mb-2">
-              Tarifas fijadas por la Alcaldía Especial de Girardot — Secretaría de Tránsito y Transporte Municipal.
+            <p className="text-white/60 text-lg">
+              Fijadas por la Alcaldía de Girardot — Secretaría de Tránsito y Transporte Municipal.
               Vigentes desde el centro de la ciudad hacia y viceversa.
-            </p>
-            <p className="text-sm text-muted-foreground/70">
-              Exclusivas para vehículos afiliados a Central de Taxis S.A.S.
             </p>
           </div>
         </section>
 
         {/* ── Recargos ── */}
-        <section className="bg-foreground text-white py-8 px-4">
+        <section className="bg-primary py-8 px-4">
           <div className="container mx-auto">
-            <h2 className="text-center text-sm font-semibold uppercase tracking-widest text-white/50 mb-6">
+            <p className="text-center text-primary-foreground/70 text-xs font-semibold uppercase tracking-widest mb-5">
               Recargos adicionales sobre la tarifa base
-            </h2>
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 max-w-3xl mx-auto">
-              <div className="flex items-center gap-3 bg-white/10 rounded-xl p-4">
-                <Moon className="h-8 w-8 text-blue-300 shrink-0" />
+            </p>
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 max-w-2xl mx-auto">
+              <div className="flex items-center gap-3 bg-primary-foreground/10 rounded-xl p-4">
+                <Moon className="h-7 w-7 text-primary-foreground shrink-0" />
                 <div>
-                  <p className="font-bold text-lg">+ $1.500</p>
-                  <p className="text-sm text-white/70">Recargo nocturno</p>
-                  <p className="text-xs text-white/50">7:00 PM – 6:00 AM</p>
+                  <p className="font-bold text-primary-foreground text-lg leading-none">+ $1.500</p>
+                  <p className="text-primary-foreground/70 text-sm mt-0.5">Recargo nocturno</p>
+                  <p className="text-primary-foreground/50 text-xs">7:00 PM – 6:00 AM</p>
                 </div>
               </div>
-              <div className="flex items-center gap-3 bg-white/10 rounded-xl p-4">
-                <Snowflake className="h-8 w-8 text-cyan-300 shrink-0" />
+              <div className="flex items-center gap-3 bg-primary-foreground/10 rounded-xl p-4">
+                <Snowflake className="h-7 w-7 text-primary-foreground shrink-0" />
                 <div>
-                  <p className="font-bold text-lg">+ $1.000</p>
-                  <p className="text-sm text-white/70">Recarga navideña</p>
-                  <p className="text-xs text-white/50">Temporada diciembre</p>
+                  <p className="font-bold text-primary-foreground text-lg leading-none">+ $1.000</p>
+                  <p className="text-primary-foreground/70 text-sm mt-0.5">Recarga navideña</p>
+                  <p className="text-primary-foreground/50 text-xs">Temporada diciembre</p>
                 </div>
               </div>
-              <div className="flex items-center gap-3 bg-white/10 rounded-xl p-4">
-                <MapPin className="h-8 w-8 text-yellow-300 shrink-0" />
+              <div className="flex items-center gap-3 bg-primary-foreground/10 rounded-xl p-4">
+                <MapPin className="h-7 w-7 text-primary-foreground shrink-0" />
                 <div>
-                  <p className="font-bold text-lg">+ $2.000</p>
-                  <p className="text-sm text-white/70">Tarifa entre zonas</p>
-                  <p className="text-xs text-white/50">Viajes entre sectores</p>
+                  <p className="font-bold text-primary-foreground text-lg leading-none">+ $2.000</p>
+                  <p className="text-primary-foreground/70 text-sm mt-0.5">Tarifa entre zonas</p>
+                  <p className="text-primary-foreground/50 text-xs">Viajes entre sectores</p>
                 </div>
               </div>
             </div>
@@ -222,13 +218,13 @@ const Tarifas = () => {
                 placeholder="Busca tu barrio o sector..."
                 value={busqueda}
                 onChange={(e) => setBusqueda(e.target.value)}
-                className="w-full pl-12 pr-4 py-3.5 rounded-xl border border-border bg-background text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/40 text-base shadow-sm"
+                className="w-full pl-12 pr-4 py-3.5 rounded-xl border border-border bg-background text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/60 text-base shadow-sm"
               />
             </div>
             {!hayResultados && (
               <p className="text-center text-muted-foreground mt-4 text-sm">
                 No encontramos ese sector. Contáctanos al{" "}
-                <a href="tel:6018889828" className="text-primary font-medium">
+                <a href="tel:6018889828" className="text-primary font-semibold">
                   601 888 9828
                 </a>{" "}
                 para más información.
@@ -238,47 +234,45 @@ const Tarifas = () => {
         </section>
 
         {/* ── Tarifas por zona ── */}
-        <section className="py-12 px-4">
+        <section className="section-padding">
           <div className="container mx-auto">
-            <h2 className="text-2xl font-bold text-foreground text-center mb-2">
-              Tarifas por Zona
-            </h2>
-            <p className="text-muted-foreground text-center mb-10 text-sm">
-              Tarifa mínima: <span className="font-semibold text-foreground">$8.000</span>
-            </p>
+            <div className="text-center mb-10">
+              <span className="overline">Zonas principales</span>
+              <h2 className="section-heading mt-2">
+                Tarifas por <span className="text-primary">Zona</span>
+              </h2>
+              <p className="section-subheading">
+                Tarifa mínima: <strong>$8.000</strong>
+              </p>
+            </div>
 
-            <div className="space-y-8">
+            <div className="space-y-6">
               {tarifaZonas.map((zona) => {
                 const destinosFiltrados = filtrarDestinos(zona.destinos);
                 if (terminoBusqueda && destinosFiltrados.length === 0) return null;
 
                 return (
-                  <div
-                    key={zona.precio}
-                    className={`rounded-2xl border ${zona.borderColor} ${zona.bgLight} overflow-hidden`}
-                  >
-                    {/* Cabecera de zona */}
-                    <div className={`bg-gradient-to-r ${zona.color} px-6 py-4 flex items-center gap-3`}>
-                      <span className="text-white text-2xl font-extrabold">
+                  <div key={zona.precio} className="taxi-card p-0 overflow-hidden">
+                    {/* Cabecera */}
+                    <div className="flex items-center gap-4 bg-foreground px-6 py-4">
+                      <span className="text-primary text-3xl font-extrabold">
                         ${zona.precio.toLocaleString("es-CO")}
                       </span>
-                      <span className="text-white/80 text-sm font-medium">
-                        · {zona.destinos.length} sectores
+                      <div className="h-6 w-px bg-white/20" />
+                      <span className="text-white/50 text-sm">
+                        {zona.destinos.length} sectores
                       </span>
                     </div>
-
-                    {/* Lista de destinos */}
-                    <div className="p-5">
-                      <div className="flex flex-wrap gap-2">
-                        {destinosFiltrados.map((destino) => (
-                          <span
-                            key={destino}
-                            className={`text-sm px-3 py-1 rounded-full border ${zona.borderColor} ${zona.textColor} bg-white font-medium`}
-                          >
-                            {destino}
-                          </span>
-                        ))}
-                      </div>
+                    {/* Chips */}
+                    <div className="p-5 flex flex-wrap gap-2">
+                      {destinosFiltrados.map((destino) => (
+                        <span
+                          key={destino}
+                          className="text-sm px-3 py-1 rounded-full bg-[hsl(var(--primary-soft))] text-[hsl(var(--primary-text))] font-medium border border-primary/20"
+                        >
+                          {destino}
+                        </span>
+                      ))}
                     </div>
                   </div>
                 );
@@ -287,15 +281,15 @@ const Tarifas = () => {
           </div>
         </section>
 
-        {/* ── Tarifas especiales ── */}
-        <section className="py-12 px-4 bg-[hsl(var(--surface))]">
+        {/* ── Zonas especiales ── */}
+        <section className="section-padding bg-[hsl(var(--surface))]">
           <div className="container mx-auto">
-            <h2 className="text-2xl font-bold text-foreground text-center mb-2">
-              Zonas Especiales
-            </h2>
-            <p className="text-muted-foreground text-center mb-10 text-sm">
-              Sectores alejados del centro con tarifa diferenciada
-            </p>
+            <div className="text-center mb-10">
+              <span className="overline">Sectores alejados</span>
+              <h2 className="section-heading mt-2">
+                Zonas <span className="text-primary">Especiales</span>
+              </h2>
+            </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
               {tarifasEspeciales.map((zona) => {
@@ -303,23 +297,20 @@ const Tarifas = () => {
                 if (terminoBusqueda && destinosFiltrados.length === 0) return null;
 
                 return (
-                  <div
-                    key={zona.precio + zona.label}
-                    className="rounded-2xl overflow-hidden shadow-sm border border-border"
-                  >
-                    <div className={`bg-gradient-to-br ${zona.color} px-5 py-4`}>
-                      <p className="text-white text-2xl font-extrabold">
+                  <div key={zona.precio + zona.label} className="taxi-card p-0 overflow-hidden">
+                    <div className="bg-foreground px-5 py-4">
+                      <p className="text-primary text-2xl font-extrabold">
                         ${zona.precio.toLocaleString("es-CO")}
                       </p>
-                      <p className="text-white/80 text-xs font-medium mt-0.5">
+                      <p className="text-white/50 text-xs font-medium mt-0.5">
                         {zona.label}
                       </p>
                     </div>
-                    <div className="bg-white p-4">
-                      <ul className="space-y-1.5">
+                    <div className="p-4">
+                      <ul className="space-y-2">
                         {destinosFiltrados.map((d) => (
-                          <li key={d} className="text-sm text-foreground/80 flex items-start gap-1.5">
-                            <MapPin className="h-3.5 w-3.5 text-muted-foreground mt-0.5 shrink-0" />
+                          <li key={d} className="text-sm text-foreground/80 flex items-start gap-2">
+                            <MapPin className="h-3.5 w-3.5 text-primary mt-0.5 shrink-0" />
                             {d}
                           </li>
                         ))}
@@ -333,14 +324,17 @@ const Tarifas = () => {
         </section>
 
         {/* ── Sitios turísticos ── */}
-        <section className="py-12 px-4">
+        <section className="section-padding">
           <div className="container mx-auto">
-            <h2 className="text-2xl font-bold text-foreground text-center mb-2">
-              Sitios Turísticos
-            </h2>
-            <p className="text-muted-foreground text-center mb-10 text-sm">
-              Tarifas especiales hacia los principales atractivos de Girardot
-            </p>
+            <div className="text-center mb-10">
+              <span className="overline">Turismo</span>
+              <h2 className="section-heading mt-2">
+                Sitios <span className="text-primary">Turísticos</span>
+              </h2>
+              <p className="section-subheading">
+                Tarifas especiales hacia los principales atractivos de Girardot
+              </p>
+            </div>
 
             {(() => {
               const filtrados = sitiosTuristicos.filter((s) =>
@@ -348,37 +342,26 @@ const Tarifas = () => {
               );
               if (terminoBusqueda && filtrados.length === 0) return null;
 
-              // Agrupar por precio
               const grupos: Record<number, string[]> = {};
               filtrados.forEach(({ precio, nombre }) => {
                 if (!grupos[precio]) grupos[precio] = [];
                 grupos[precio].push(nombre);
               });
 
-              const colores: Record<number, string> = {
-                8000: "from-emerald-400 to-emerald-500",
-                16000: "from-teal-500 to-teal-600",
-                21000: "from-cyan-500 to-cyan-600",
-                25000: "from-sky-500 to-sky-600",
-              };
-
               return (
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
                   {Object.entries(grupos).map(([precio, nombres]) => (
-                    <div
-                      key={precio}
-                      className="rounded-2xl overflow-hidden shadow-sm border border-border"
-                    >
-                      <div className={`bg-gradient-to-br ${colores[Number(precio)] ?? "from-gray-400 to-gray-500"} px-5 py-4`}>
-                        <p className="text-white text-2xl font-extrabold">
+                    <div key={precio} className="taxi-card p-0 overflow-hidden">
+                      <div className="bg-foreground px-5 py-4">
+                        <p className="text-primary text-2xl font-extrabold">
                           ${Number(precio).toLocaleString("es-CO")}
                         </p>
                       </div>
-                      <div className="bg-white p-4">
-                        <ul className="space-y-1.5">
+                      <div className="p-4">
+                        <ul className="space-y-2">
                           {nombres.map((n) => (
-                            <li key={n} className="text-sm text-foreground/80 flex items-start gap-1.5">
-                              <MapPin className="h-3.5 w-3.5 text-muted-foreground mt-0.5 shrink-0" />
+                            <li key={n} className="text-sm text-foreground/80 flex items-start gap-2">
+                              <MapPin className="h-3.5 w-3.5 text-primary mt-0.5 shrink-0" />
                               {n}
                             </li>
                           ))}
@@ -393,11 +376,11 @@ const Tarifas = () => {
         </section>
 
         {/* ── Nota legal ── */}
-        <section className="py-8 px-4 bg-[hsl(var(--surface))]">
+        <section className="px-4 pb-10">
           <div className="container mx-auto max-w-2xl">
-            <div className="flex gap-3 bg-blue-50 border border-blue-200 rounded-xl p-4">
-              <Info className="h-5 w-5 text-blue-500 shrink-0 mt-0.5" />
-              <p className="text-sm text-blue-800">
+            <div className="flex gap-3 bg-[hsl(var(--primary-soft))] border border-primary/20 rounded-xl p-4">
+              <Info className="h-5 w-5 text-primary shrink-0 mt-0.5" />
+              <p className="text-sm text-[hsl(var(--primary-text))]">
                 Tarifas establecidas mediante{" "}
                 <strong>Decreto No. 0030 del 28 de enero de 2026</strong>, expedido por la
                 Alcaldía Especial de Girardot — Secretaría de Tránsito y Transporte Municipal.
@@ -409,38 +392,31 @@ const Tarifas = () => {
         </section>
 
         {/* ── CTA ── */}
-        <section className="py-12 px-4 text-center">
+        <section className="section-padding bg-[hsl(var(--surface))] text-center">
           <div className="container mx-auto max-w-xl">
-            <h3 className="text-xl font-bold text-foreground mb-2">
+            <h3 className="text-2xl font-bold text-foreground mb-2">
               ¿Listo para viajar?
             </h3>
-            <p className="text-muted-foreground mb-6 text-sm">
+            <p className="text-muted-foreground mb-8">
               Pide tu taxi ahora por WhatsApp o llámanos directamente.
             </p>
             <div className="flex flex-col sm:flex-row gap-3 justify-center">
               <a
                 href="https://wa.me/573228331111?text=Hola%2C%20necesito%20un%20taxi%20desde..."
-                className="inline-flex items-center justify-center gap-2 bg-green-500 hover:bg-green-600 text-white font-semibold px-6 py-3 rounded-xl transition-colors"
+                className="inline-flex items-center justify-center gap-2 bg-green-500 hover:bg-green-600 text-white font-semibold px-6 py-3 rounded-full transition-colors"
               >
                 Pedir por WhatsApp
               </a>
               <a
                 href="tel:6018889828"
-                className="inline-flex items-center justify-center gap-2 bg-primary hover:bg-primary/90 text-primary-foreground font-semibold px-6 py-3 rounded-xl transition-colors"
+                className="taxi-button inline-flex items-center justify-center"
               >
                 Llamar: 601 888 9828
               </a>
             </div>
-            <div className="mt-6">
-              <Link
-                to="/"
-                className="text-sm text-muted-foreground hover:text-foreground transition-colors underline underline-offset-4"
-              >
-                ← Volver al inicio
-              </Link>
-            </div>
           </div>
         </section>
+
       </main>
       <Footer />
       <WhatsAppFloat />
