@@ -157,30 +157,28 @@ const Tarifas = () => {
 
         {/* ── Hero ── */}
         <section className="bg-foreground text-white py-14 px-4">
-          <div className="container mx-auto max-w-3xl">
-            {/* Volver al inicio — alineado a la izquierda */}
-            <div className="flex justify-start mb-6">
-              <Link
-                to="/"
-                className="inline-flex items-center gap-1.5 text-white/50 hover:text-white text-sm transition-colors"
-              >
-                <ArrowLeft className="h-4 w-4" />
-                Volver al inicio
-              </Link>
+          {/* Volver al inicio — pegado al borde izquierdo del container */}
+          <div className="container mx-auto px-4 mb-6">
+            <Link
+              to="/"
+              className="inline-flex items-center gap-1.5 text-white/50 hover:text-white text-sm transition-colors"
+            >
+              <ArrowLeft className="h-4 w-4" />
+              Volver al inicio
+            </Link>
+          </div>
+          {/* Contenido centrado */}
+          <div className="container mx-auto max-w-3xl text-center">
+            <div className="inline-block bg-primary text-primary-foreground text-xs font-bold px-3 py-1 rounded-full mb-4 uppercase tracking-widest">
+              Decreto No. 0030 · Enero 2026
             </div>
-            {/* Contenido centrado */}
-            <div className="text-center">
-              <div className="inline-block bg-primary text-primary-foreground text-xs font-bold px-3 py-1 rounded-full mb-4 uppercase tracking-widest">
-                Decreto No. 0030 · Enero 2026
-              </div>
-              <h1 className="text-4xl md:text-5xl font-bold mb-4">
-                Tarifas Oficiales
-              </h1>
-              <p className="text-white/60 text-lg">
-                Fijadas por la Alcaldía de Girardot — Secretaría de Tránsito y Transporte Municipal.
-                Vigentes desde el centro de la ciudad hacia y viceversa.
-              </p>
-            </div>
+            <h1 className="text-4xl md:text-5xl font-bold mb-4">
+              Tarifas Oficiales
+            </h1>
+            <p className="text-white/60 text-lg">
+              Fijadas por la Alcaldía de Girardot — Secretaría de Tránsito y Transporte Municipal.
+              Vigentes desde el centro de la ciudad hacia y viceversa.
+            </p>
           </div>
         </section>
 
