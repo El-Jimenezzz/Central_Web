@@ -1,9 +1,16 @@
-import { Shield, Clock, DollarSign, HeartHandshake, Smartphone, Check } from "lucide-react";
+import { Shield, Clock, DollarSign, HeartHandshake, Smartphone, Check, ArrowRight } from "lucide-react";
+import { Link } from "react-router-dom";
 import { useScrollReveal } from "@/hooks/useScrollReveal";
+import React from "react";
 
 const BenefitsSection = () => {
   const revealRef = useScrollReveal();
-  const benefits = [
+  const benefits: {
+    icon: React.ElementType;
+    title: string;
+    description: string;
+    cta?: { label: string; href: string };
+  }[] = [
     {
       icon: Clock,
       title: "Disponibilidad 24/7",
@@ -18,6 +25,7 @@ const BenefitsSection = () => {
       icon: DollarSign,
       title: "Tarifas Transparentes",
       description: "Sin sorpresas en el precio. Tarifas claras y justas, conoce el costo antes de viajar.",
+      cta: { label: "Conócelas", href: "/tarifas" },
     },
     {
       icon: HeartHandshake,
@@ -66,6 +74,15 @@ const BenefitsSection = () => {
                 <p className="text-muted-foreground leading-relaxed">
                   {benefit.description}
                 </p>
+                {benefit.cta && (
+                  <Link
+                    to={benefit.cta.href}
+                    className="inline-flex items-center gap-1.5 mt-4 text-sm font-semibold text-primary hover:text-primary/80 transition-colors group"
+                  >
+                    {benefit.cta.label}
+                    <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+                  </Link>
+                )}
               </div>
             );
           })}

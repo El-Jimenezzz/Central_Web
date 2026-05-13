@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import { Facebook } from "lucide-react";
 
 const Footer = () => {
@@ -30,6 +31,12 @@ const Footer = () => {
                 {link.name}
               </a>
             ))}
+            <Link
+              to="/tarifas"
+              className="text-sm text-white/60 hover:text-white transition-colors duration-300"
+            >
+              Tarifas
+            </Link>
           </nav>
 
           {/* Right: Social + Copyright */}

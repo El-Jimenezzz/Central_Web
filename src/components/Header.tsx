@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Menu, X, Phone } from "lucide-react";
 
@@ -37,6 +38,12 @@ const Header = () => {
                   {item.name}
                 </a>
               ))}
+              <Link
+                to="/tarifas"
+                className="text-sm font-medium text-foreground/70 hover:text-foreground transition-colors duration-300"
+              >
+                Tarifas
+              </Link>
             </nav>
           </div>
 
@@ -77,6 +84,13 @@ const Header = () => {
                   {item.name}
                 </a>
               ))}
+              <Link
+                to="/tarifas"
+                className="text-sm font-medium text-foreground/70 hover:text-foreground transition-colors duration-300 py-2"
+                onClick={() => setIsMenuOpen(false)}
+              >
+                Tarifas
+              </Link>
               <div className="flex flex-col gap-2 pt-4">
                 <Button variant="call" size="sm" asChild>
                   <a href="tel:+573228111111">
