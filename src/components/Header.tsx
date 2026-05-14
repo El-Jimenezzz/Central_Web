@@ -1,24 +1,28 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Menu, X, Phone } from "lucide-react";
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const location = useLocation();
+  const isHome = location.pathname === "/";
 
-  // Desktop shows top 5, mobile shows all
+  // Si estamos en home, usamos anclas directas; si no, prefijamos con /
+  const href = (anchor: string) => (isHome ? anchor : `/${anchor}`);
+
   const navItems = [
-    { name: "Inicio", href: "#inicio" },
-    { name: "Servicios", href: "#servicios" },
-    { name: "Contacto", href: "#contacto" },
-    { name: "Nosotros", href: "#nosotros" },
+    { name: "Inicio", anchor: "#inicio" },
+    { name: "Servicios", anchor: "#servicios" },
+    { name: "Contacto", anchor: "#contacto" },
+    { name: "Nosotros", anchor: "#nosotros" },
   ];
 
   const allNavItems = [
     ...navItems,
-    { name: "Beneficios", href: "#beneficios" },
-    { name: "Testimonios", href: "#testimonios" },
-    { name: "Trabaja con nosotros", href: "#trabaja-con-nosotros" },
+    { name: "Beneficios", anchor: "#beneficios" },
+    { name: "Testimonios", anchor: "#testimonios" },
+    { name: "Trabaja con nosotros", anchor: "#trabaja-con-nosotros" },
   ];
 
   return (
@@ -32,7 +36,7 @@ const Header = () => {
               {navItems.map((item) => (
                 <a
                   key={item.name}
-                  href={item.href}
+                  href={href(item.anchor)}
                   className="text-sm font-medium text-foreground/70 hover:text-foreground transition-colors duration-300"
                 >
                   {item.name}
@@ -77,7 +81,7 @@ const Header = () => {
               {allNavItems.map((item) => (
                 <a
                   key={item.name}
-                  href={item.href}
+                  href={href(item.anchor)}
                   className="text-sm font-medium text-foreground/70 hover:text-foreground transition-colors duration-300 py-2"
                   onClick={() => setIsMenuOpen(false)}
                 >
