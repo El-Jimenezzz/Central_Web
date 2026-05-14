@@ -29,12 +29,15 @@ const DriverForm = () => {
       tipo: 'conductor_interesado'
     };
     try {
-      await fetch(import.meta.env.VITE_WEBHOOK_CONDUCTOR, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(data),
+      const params = new URLSearchParams({
+        nombre: String(data.nombre ?? ''),
+        apellido: String(data.apellido ?? ''),
+        telefono: String(data.telefono ?? ''),
+        tipo: 'conductor_interesado',
+      });
+      await fetch(`${import.meta.env.VITE_WEBHOOK_CONDUCTOR}?${params.toString()}`, {
+        method: 'GET',
+        mode: 'no-cors',
       });
       toast.success("¡Solicitud enviada! Te contactaremos pronto para más información.");
       if (formRef.current) formRef.current.reset();

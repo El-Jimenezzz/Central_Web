@@ -50,12 +50,19 @@ const ContactSection = () => {
     };
     setIsLoading(true);
     try {
-      await fetch(import.meta.env.VITE_WEBHOOK_RESERVA, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(data),
+      const params = new URLSearchParams({
+        nombre: String(data.nombre ?? ''),
+        telefono: String(data.telefono ?? ''),
+        recogida: String(data.recogida ?? ''),
+        destino: String(data.destino ?? ''),
+        fecha: String(data.fecha ?? ''),
+        hora: String(data.hora ?? ''),
+        notas: String(data.notas ?? ''),
+        tipo: 'reserva',
+      });
+      await fetch(`${import.meta.env.VITE_WEBHOOK_RESERVA}?${params.toString()}`, {
+        method: 'GET',
+        mode: 'no-cors',
       });
       toast.success('¡Reserva enviada! Te contactaremos pronto para confirmar.');
       if (reservaFormRef.current) reservaFormRef.current.reset();
