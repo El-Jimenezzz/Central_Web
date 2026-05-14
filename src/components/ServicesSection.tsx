@@ -1,4 +1,4 @@
-import { Car, Bus, Clock } from "lucide-react";
+import { Car, Bus, Clock, Plane } from "lucide-react";
 import { useScrollReveal } from "@/hooks/useScrollReveal";
 
 const ServicesSection = () => {
@@ -13,6 +13,11 @@ const ServicesSection = () => {
       icon: Bus,
       title: "Traslados a la Terminal de Transporte",
       description: "Llega a tiempo y sin estrés. Te llevamos o recogemos directamente en la Terminal de Transporte de Girardot con puntualidad garantizada.",
+    },
+    {
+      icon: Plane,
+      title: "Traslados al Aeropuerto",
+      description: "Viaja tranquilo sin preocuparte por el tiempo. Te llevamos o recogemos en el aeropuerto más cercano con puntualidad garantizada.",
     },
     {
       icon: Clock,
@@ -34,7 +39,7 @@ const ServicesSection = () => {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
           {services.map((service, index) => {
             const IconComponent = service.icon;
             return (

@@ -430,10 +430,16 @@ const Tarifas = () => {
                 Pedir por WhatsApp
               </a>
               <a
-                href="tel:6018889828"
+                href="tel:3228111111"
                 className="taxi-button inline-flex items-center justify-center"
               >
-                Llamar: 601 888 9828
+                Llamar: 322 811 1111
+              </a>
+              <a
+                href="tel:3228311111"
+                className="taxi-button inline-flex items-center justify-center"
+              >
+                Llamar: 322 831 1111
               </a>
             </div>
           </div>
