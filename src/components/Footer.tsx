@@ -1,12 +1,16 @@
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { Facebook } from "lucide-react";
 
 const Footer = () => {
+  const location = useLocation();
+  const isHome = location.pathname === "/";
+  const buildHref = (anchor: string) => (isHome ? anchor : `/${anchor}`);
+
   const quickLinks = [
-    { name: "Inicio", href: "#inicio" },
-    { name: "Servicios", href: "#servicios" },
-    { name: "Contacto", href: "#contacto" },
-    { name: "Nosotros", href: "#nosotros" },
+    { name: "Inicio", anchor: "#inicio" },
+    { name: "Servicios", anchor: "#servicios" },
+    { name: "Contacto", anchor: "#contacto" },
+    { name: "Nosotros", anchor: "#nosotros" },
   ];
 
   return (
@@ -25,7 +29,7 @@ const Footer = () => {
             {quickLinks.map((link) => (
               <a
                 key={link.name}
-                href={link.href}
+                href={buildHref(link.anchor)}
                 className="text-sm text-white/60 hover:text-white transition-colors duration-300"
               >
                 {link.name}
