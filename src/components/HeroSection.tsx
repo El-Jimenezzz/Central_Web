@@ -20,7 +20,7 @@ const HeroSection = () => {
       <div className="relative z-10 container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="max-w-2xl">
           <h1 className="text-5xl sm:text-6xl lg:text-7xl font-extrabold tracking-tight text-white mb-6 leading-tight">
-            Tu Taxi en <span className="text-primary">Minutos</span>, Siempre Disponible
+            Tu Taxi en <span className="text-primary">Girardot</span> en Minutos
           </h1>
           
           <p className="text-lg sm:text-xl text-white/80 max-w-xl mb-8 leading-relaxed">
