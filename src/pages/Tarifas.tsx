@@ -13,6 +13,43 @@ const useScrollToTop = () => {
   }, []);
 };
 
+// SEO: Set page-specific title and meta for Tarifas
+const useTarifasSEO = () => {
+  useEffect(() => {
+    const originalTitle = document.title;
+    document.title = "Tarifas de Taxi en Girardot 2026 | Central de Taxis Girardot";
+
+    const metaDesc = document.querySelector('meta[name="description"]');
+    const originalDesc = metaDesc?.getAttribute("content") || "";
+    metaDesc?.setAttribute("content", "Consulta las tarifas oficiales de taxi en Girardot vigentes 2026. Precios por zona, recargos nocturnos y tarifas a sitios turísticos. Decreto No. 0030 de la Alcaldía.");
+
+    const canonical = document.querySelector('link[rel="canonical"]');
+    const originalCanonical = canonical?.getAttribute("href") || "";
+    canonical?.setAttribute("href", "https://www.centraldetaxis.com.co/tarifas");
+
+    const ogTitle = document.querySelector('meta[property="og:title"]');
+    const originalOgTitle = ogTitle?.getAttribute("content") || "";
+    ogTitle?.setAttribute("content", "Tarifas de Taxi en Girardot 2026 | Central de Taxis");
+
+    const ogDesc = document.querySelector('meta[property="og:description"]');
+    const originalOgDesc = ogDesc?.getAttribute("content") || "";
+    ogDesc?.setAttribute("content", "Tarifas oficiales de taxi en Girardot 2026. Precios por zona desde $8.000 COP. Decreto No. 0030 de la Alcaldía.");
+
+    const ogUrl = document.querySelector('meta[property="og:url"]');
+    const originalOgUrl = ogUrl?.getAttribute("content") || "";
+    ogUrl?.setAttribute("content", "https://www.centraldetaxis.com.co/tarifas");
+
+    return () => {
+      document.title = originalTitle;
+      metaDesc?.setAttribute("content", originalDesc);
+      canonical?.setAttribute("href", originalCanonical);
+      ogTitle?.setAttribute("content", originalOgTitle);
+      ogDesc?.setAttribute("content", originalOgDesc);
+      ogUrl?.setAttribute("content", originalOgUrl);
+    };
+  }, []);
+};
+
 // ─── Datos de tarifas ────────────────────────────────────────────────────────
 
 const tarifaZonas = [
@@ -127,6 +164,7 @@ const sitiosTuristicos = [
 
 const Tarifas = () => {
   useScrollToTop();
+  useTarifasSEO();
   const [busqueda, setBusqueda] = useState("");
   const [zonasAbiertas, setZonasAbiertas] = useState<Record<number, boolean>>({});
 
