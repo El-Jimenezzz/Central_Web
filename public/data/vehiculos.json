@@ -1,0 +1,38 @@
+[
+  {
+    "id": "v001",
+    "marca": "Kia",
+    "modelo": "Picanto",
+    "anio": 2022,
+    "tipoCombustible": "Gasolina",
+    "foto": "/images/658.png",
+    "disponible": true
+  },
+  {
+    "id": "v002",
+    "marca": "Kia",
+    "modelo": "Picanto",
+    "anio": 2022,
+    "tipoCombustible": "Gasolina",
+    "foto": "/images/659.png",
+    "disponible": true
+  },
+  {
+    "id": "v003",
+    "marca": "Renault",
+    "modelo": "Logan",
+    "anio": 2023,
+    "tipoCombustible": "gasolina",
+    "foto": "https://example.com/images/logan-2023.jpg",
+    "disponible": false
+  },
+  {
+    "id": "v004",
+    "marca": "Hyundai",
+    "modelo": "Grand i10",
+    "anio": 2020,
+    "tipoCombustible": "gasolina",
+    "foto": "https://example.com/images/grand-i10-2020.jpg",
+    "disponible": false
+  }
+]
